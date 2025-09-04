@@ -6,7 +6,7 @@ import plotly.express as px
 st.set_page_config(
     page_title="Dashboard Análise de Transações", 
     page_icon="📊",
-    tittle="Dashboard Análise de Transações",
+    title="Dashboard Análise de Transações",
     layout="wide")
 
 #carregando os dados
@@ -43,7 +43,9 @@ with col2:
     st.plotly_chart(fig_volume_medio_mes, use_container_width=True)
 
 #Filtros por Dia da Semana
-dias_disponiveis = sorted(df['dia_da_semana'].unique())
+ordem_semana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
+df['dia_da_semana']= pd.Categorical(df['dia_da_semana'], categories=ordem_semana, ordered=True)
+dias_disponiveis = df['dia_da_semana'].unique()
 dias_selecionados = st.sidebar.multiselect("Selecione o(s) Dia(s) da Semana", dias_disponiveis, default=dias_disponiveis)
 df_filtrado = df_filtrado[df_filtrado['dia_da_semana'].isin(dias_selecionados)]
 
