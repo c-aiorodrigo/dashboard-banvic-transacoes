@@ -9,7 +9,7 @@ st.set_page_config(
     layout="wide")
 
 #carregando os dados
-df = pd.read_csv("C:/Users/Caio/Documents/ProjetoCaio/df_transacoes_merge.csv")
+df = pd.read_csv("df_transacoes_merge.csv")
 
 #Criando o layout do dashboard
 st.sidebar.header("✔️Filtros")
