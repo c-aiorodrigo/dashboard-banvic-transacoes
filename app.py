@@ -6,6 +6,7 @@ import plotly.express as px
 st.set_page_config(
     page_title="Dashboard Análise de Transações", 
     page_icon="📊",
+    tittle="Dashboard Análise de Transações",
     layout="wide")
 
 #carregando os dados
