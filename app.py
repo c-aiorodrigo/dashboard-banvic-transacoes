@@ -123,4 +123,4 @@ with col3:
     st.plotly_chart(fig_volume_dia_semana, use_container_width=True)
 with col4:
     st.subheader("📉 Média de Transações por Dia da Semana")
-    st.plotly_chart(fig_volume_medio_dia_semana, use_container_width=True)
+    st.plotly_chart(fig_volume_medio_dia_semana, use_container_width=True) #para atualizar o commit
