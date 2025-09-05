@@ -25,11 +25,12 @@ contagem_mes = df_filtrado.groupby('mes').count()
 numero_medio = contagem_mes.mean()                                                          #numero medio dos meses selecionados                                   
 volume_total = df_filtrado['valor_transacao'].sum()                                         #volume total dos meses selecionados
 volume_medio = df_filtrado['valor_transacao'].mean()                                        #volume medio dos meses selecionados
-c1, c2, c3, c4 = st.columns(4)                                                               #criando 3 colunas para as metricas
+c1, c2= st.columns(2)                                                               #criando colunas
 with c1:
     st.metric(label="Número Total de Transações", value=f"{numero_total:,}")                      #para mostrar o numero total
 with c2:
     st.metric(label="Número Médio de Transações", value=f"{numero_medio['valor_transacao']:.2f}") #para mostrar o numero medio    
+c3, c4= st.columns(2)                                                               #criando colunas
 with c3:
     st.metric(label="Volume Total de Transações", value=f"R$ {volume_total:,.2f}")                #para mostrar o valor total
 with c4:
@@ -66,11 +67,12 @@ contagem_dia = df_filtrado.groupby('dia_da_semana').count()
 numero_media_dia = contagem_dia.mean()                                          #numero medio por dia da semana
 volume_total_dia = df_filtrado['valor_transacao'].sum()                         #volume total por dia da semana
 volume_medio_dia = df_filtrado['valor_transacao'].mean()                        #volume medio por dia da semana
-c5, c6, c7, c8= st.columns(4)                                                   #criando 3 colunas para as metricas
+c5, c6= st.columns(2)                                                   #criando colunas
 with c5:
     st.metric(label="Número Total de Transações (Dia da Semana)", value=f"{numero_total_dia:,}")
 with c6:
     st.metric(label="Número Médio de Transações (Dia da Semana)", value=f"{numero_media_dia['valor_transacao']:.2f}")
+c7, c8= st.columns(2)                                                   #criando colunas
 with c7:
     st.metric(label="Volume Total de Transações (Dia da Semana)", value=f"R$ {volume_total_dia:,.2f}")
 with c8:
