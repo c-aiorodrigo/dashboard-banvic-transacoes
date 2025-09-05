@@ -24,14 +24,8 @@ df_filtrado = df[df['mes'].isin(meses_selecionados)]
 #calculando numeros por mes
 numero_total = df_filtrado['valor_transacao'].count()                                       #numero total dos meses selecionados
 
-df_transacoes_mensais = df_filtrado.groupby(['mes', 'apenas_data']).count().reset_index()
-df_transacoes_mensais.rename(columns={'valor_transacao': 'transacoes_mensais'}, inplace=True)
-df_numero_medio_mes = df_transacoes_mensais.groupby('mes')['transacoes_mensais'].mean().reset_index(name='media_mes_transacoes')
-if not df_numero_medio_mes.empty:
-    if len(df_numero_medio_mes) > 1:
-        numero_medio_mes = df_numero_medio_mes['media_mes_transacoes'].mean()
-    else:
-        numero_medio_mes = df_numero_medio_mes                                              #numero medio dos meses selecionados   
+df_transacoes_mensais = df_filtrado.groupby(['mes', 'apenas_data'])['valor_transacao'].count().reset_index(name='contagem_mensal')
+numero_medio_mes = df_transacoes_mensais.groupby('mes')['contagem_mensal'].mean().mean()
 
 #calculando volume por mes
 volume_total = df_filtrado['valor_transacao'].sum()                                         #volume total dos meses selecionados
@@ -78,15 +72,8 @@ df_filtrado_dia = df_filtrado[df_filtrado['dia_da_semana'].isin(dias_selecionado
 #calculando numeros por dia da semana
 numero_total_dia = df_filtrado_dia['valor_transacao'].count()                       #numero total por dia da semana
 
-numero_total_dia = df_filtrado_dia['valor_transacao'].count()
-df_transacoes_diarias = df_filtrado_dia.groupby(['dia_da_semana', 'apenas_data']).count().reset_index()
-df_transacoes_diarias.rename(columns={'valor_transacao': 'transacoes_diarias_count'}, inplace=True)
-df_numero_medio_dia = df_transacoes_diarias.groupby('dia_da_semana')['transacoes_diarias_count'].mean().reset_index(name='media_dia_transacoes')
-if not df_numero_medio_dia.empty:
-    if len(df_numero_medio_dia) > 1:
-        numero_medio_dia = df_numero_medio_dia['media_dia_transacoes'].mean()
-    else:
-        numero_medio_dia = df_numero_medio_dia                                      #numero medio por dia da semana
+df_transacoes_diarias_dia = df_filtrado_dia.groupby(['dia_da_semana', 'apenas_data'])['valor_transacao'].count().reset_index(name='contagem_diaria')
+numero_medio_dia = df_transacoes_diarias_dia.groupby('dia_da_semana')['contagem_diaria'].mean().mean()
 
 #calculando volume por dia da semana
 volume_total_dia = df_filtrado_dia['valor_transacao'].sum()                         #volume total por dia da semana
@@ -118,7 +105,7 @@ fig_volume_medio_dia_semana = px.line(volume_medio_dia_semana, x='dia_da_semana'
 
 #criando duas colunas para os graficos da semana
 col3, col4 = st.columns(2)
-with col3:
+with col3: 
     st.subheader("📊 Volume de Transações por Dia da Semana")
     st.plotly_chart(fig_volume_dia_semana, use_container_width=True)
 with col4:
