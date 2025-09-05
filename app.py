@@ -20,19 +20,24 @@ meses_selecionados = st.sidebar.multiselect("Selecione o(s) Mes(es)", meses_disp
 df_filtrado = df[df['mes'].isin(meses_selecionados)]
 
 #calculando metricas principais
-numero_total = df_filtrado['valor_transacao'].count()                                   #numero total dos meses selecionados                                   
-volume_total = df_filtrado['valor_transacao'].sum()                                     #volume total dos meses selecionados
-volume_medio = df_filtrado['valor_transacao'].mean()                                    #volume medio dos meses selecionados
-c1, c2, c3 = st.columns(3)                                                              #criando 3 colunas para as metricas
+numero_total = df_filtrado['valor_transacao'].count()                                       #numero total dos meses selecionados
+contagem_mes = df_filtrado.groupby('mes').count()
+numero_medio = contagem_mes.mean()                                                          #numero medio dos meses selecionados                                   
+volume_total = df_filtrado['valor_transacao'].sum()                                         #volume total dos meses selecionados
+volume_medio = df_filtrado['valor_transacao'].mean()                                        #volume medio dos meses selecionados
+c1, c2, c3, c4 = st.columns(4)                                                               #criando 3 colunas para as metricas
 with c1:
-    st.metric(label="Número Total de Transações", value=f"{numero_total:,}")               #para mostrar o numero total
+    st.metric(label="Número Total de Transações", value=f"{numero_total:,}")                      #para mostrar o numero total
 with c2:
-    st.metric(label="Volume Total de Transações", value=f"R$ {volume_total:,.2f}")         #para mostrar o valor total
+    st.metric(label="Número Médio de Transações", value=f"{numero_medio['valor_transacao']:.2f}") #para mostrar o numero medio    
 with c3:
-    st.metric(label="Volume Médio de Transações", value=f"R$ {volume_medio:,.2f}")         #para mostrar o valor medio
-numero_total_mes = df_filtrado.groupby('mes')['valor_transacao'].count().reset_index()     #numero total por mes    
-volume_total_mes = df_filtrado.groupby('mes')['valor_transacao'].sum().reset_index()       #volume por mes
-volume_medio_mes = df_filtrado.groupby('mes')['valor_transacao'].mean().reset_index()      #media por mes
+    st.metric(label="Volume Total de Transações", value=f"R$ {volume_total:,.2f}")                #para mostrar o valor total
+with c4:
+    st.metric(label="Volume Médio de Transações", value=f"R$ {volume_medio:,.2f}")                #para mostrar o valor medio
+numero_total_mes = df_filtrado.groupby('mes')['valor_transacao'].count().reset_index()            #numero total por mes
+numero_medio_mes = df_filtrado.groupby('mes')['valor_transacao'].mean().reset_index()             #numero medio por mes    
+volume_total_mes = df_filtrado.groupby('mes')['valor_transacao'].sum().reset_index()              #volume por mes
+volume_medio_mes = df_filtrado.groupby('mes')['valor_transacao'].mean().reset_index()             #media por mes
 
 fig_volume_mes = px.bar(volume_total_mes, x='mes', y='valor_transacao',                             
                         labels={"mes": "Mês", "valor_transacao": "Volume de Transações (R$)"})      #criando o grafico em barras
@@ -57,16 +62,21 @@ df_filtrado = df_filtrado[df_filtrado['dia_da_semana'].isin(dias_selecionados)]
 
 #calculando metricas principais por dia da semana
 numero_total_dia = df_filtrado['valor_transacao'].count()                       #numero total por dia da semana
+contagem_dia = df_filtrado.groupby('dia_da_semana').count()
+numero_media_dia = contagem_dia.mean()                                          #numero medio por dia da semana
 volume_total_dia = df_filtrado['valor_transacao'].sum()                         #volume total por dia da semana
 volume_medio_dia = df_filtrado['valor_transacao'].mean()                        #volume medio por dia da semana
-c4, c5, c6 = st.columns(3)                                                      #criando 3 colunas para as metricas
-with c4:
-    st.metric(label="Número Total de Transações (Dia da Semana)", value=f"{numero_total_dia:,}")
+c5, c6, c7, c8= st.columns(4)                                                   #criando 3 colunas para as metricas
 with c5:
-    st.metric(label="Volume Total de Transações (Dia da Semana)", value=f"R$ {volume_total_dia:,.2f}")
+    st.metric(label="Número Total de Transações (Dia da Semana)", value=f"{numero_total_dia:,}")
 with c6:
+    st.metric(label="Número Médio de Transações (Dia da Semana)", value=f"{numero_media_dia['valor_transacao']:.2f}")
+with c7:
+    st.metric(label="Volume Total de Transações (Dia da Semana)", value=f"R$ {volume_total_dia:,.2f}")
+with c8:
     st.metric(label="Volume Médio de Transações (Dia da Semana)", value=f"R$ {volume_medio_dia:,.2f}")
 numero_total_dia_semana = df_filtrado.groupby('dia_da_semana')['valor_transacao'].count().reset_index() #numero total por dia da semana
+numero_medio_dia_semana = df_filtrado.groupby('dia_da_semana')['valor_transacao'].mean().reset_index()  #numero medio por dia da semana
 volume_total_dia_semana = df_filtrado.groupby('dia_da_semana')['valor_transacao'].sum().reset_index()   #volume total por dia da semana
 volume_medio_dia_semana = df_filtrado.groupby('dia_da_semana')['valor_transacao'].mean().reset_index()  #volume medio por dia da semana
 
